@@ -1,0 +1,359 @@
+字段选项
+NULL
+避免null在基于字符串的字段上使用，例如Charfield，Textfield。因为空字符串值始终存储为空字符串而不是null
+
+blank
+如果为true，该字段允许为空，默认是false
+不同于null，null纯粹与数据库相关，而blank与验证相关，如果字段有blank则表单验证允许输入空值
+
+choice
+可迭代的(例如元祖或列表)，类似这种[(A, B), (A, B) ...]，一个元素是要在模型上设置的实际值，第二个元素是人类可读的名称。
+
+db_column
+用于此字段的数据库列的名称。如果没有给出，Django将使用该字段的名称。
+
+db_index
+如果为true将输出该字段的索引
+
+default
+字段的默认值。这可以是值或可调用对象。如果可调用，则每次创建新对象时都会调用它.默认值不能是可变对象（模型实例，列表，集等）
+
+primary_key
+如果True，此字段是模型的主键.
+如果没有primary_key=True为模型中的任何字段指定，Django将自动添加一个AutoField来保存主键，因此primary_key=True除非要覆盖默认的主键行为，否则不需要设置任何字段。
+primary_key=True暗示null=False和 unique=True。对象上只允许一个主键
+主键字段是只读的。如果更改现有对象上主键的值然后保存它，则将创建一个与旧对象并排的新对象。
+
+unique
+如果True，该字段在整个表格中必须是唯一的。
+这在数据库级别和模型验证中强制执行。如果您尝试在unique 字段中保存具有重复值, django.db.IntegrityError
+
+unique_for_date
+unique_for_month
+unique_for_year
+字段值唯一的日期
+
+verbose_name
+该字段的人类可读名称。如果没有给出详细名称，Django将使用字段的属性名称自动创建它，将下划线转换为空格。
+
+
+字段类型
+
+AutoField
+根据可用ID自动递增。您通常不需要直接使用它; 如果不另行指定，主键字段将自动添加到模型中。
+
+BigIntegerField
+一个64位整数
+-2^63 - 2^63
+
+BinaryField
+用于存储原始二进制数据的字段。它只支持bytes分配。请注意，此字段的功能有限。例如，无法过滤BinaryField值的查询集。
+
+BooleanField
+真/假字段。
+此字段的默认表单窗口小部件是a CheckboxInput。
+如果您需要接受null值，请 NullBooleanField改用。
+默认值BooleanField是None当Field.default 没有定义。
+
+CharField
+字符串字段，用于小到大的字符串。对于大量文本，请使用TextField。此字段的默认表单窗口小部件是a TextInput。CharField 有一个额外的必要参数：CharField.max_length
+
+CommaSeparatedIntegerField
+由逗号分隔的整数字段。如同CharField， max_length参数是必需的，
+
+DateField
+DateField.auto_now
+每次保存对象时自动将字段设置为现在
+DateField.auto_now_add
+首次创建对象时自动将字段设置为现在
+
+DateTimeField
+同DateField
+
+DecimalField
+一个固定精度的十进制数，两个必须参数
+DecimalField.max_digits
+数字中允许的最大位数。
+DecimalField.decimal_places
+与数字一起存储的小数位数
+
+EmailField
+检查该值是否为有效电子邮件地址
+
+FileField
+文件上传字段
+
+
+
+
+模块meta选项
+abstract
+如果abstract=true 这个模型将会是一个基类
+
+app_label
+如果模型定义在标准位置之外，则模型必须定义它所属的程序
+app_label="myapp"
+
+db_table
+用于模型的数据库表的名称
+db_table="misuc_table"
+
+db_tablespace
+用于此模型的数据库表空间的名称。默认为项目的DEFAULT_TABLESPACE 设置（如果已设置）。
+
+managed
+默认为Tru,如果False，不会对此模型执行数据库表创建或删除操作。
+
+ordering
+象的默认顺序，用于获取对象列表时
+ordering = ordering = ['-pub_date', 'author'], 先按照pubdate降序然后按照author升序排列
+
+proxy
+
+
+verbose_name
+对象的可读名称，单数  verbose_name = "pizza"
+
+verbose_name_plural
+对象的可读名称， 复数  verbose_name_plural = "stories"
+
+
+
+添加
+b=Blog(id=1, name='xxx')
+b.save()
+b=Blog.objects.create(id=1, name='xxx')
+
+save()没有返回值 create()返回创建的对象
+
+更新ForeignKey字段的工作方式与保存普通字段的方式完全相同 - 只需将正确类型的对象分配给相关字段即可
+
+更新ManyToManyField工作的方式略有不同 - 使用 add()字段上的方法向关系添加记录
+
+
+检索对象
+all()方法检索所有对象
+Blog.objects.all()
+
+filter(**kwargs)
+查找与参数匹配的对象
+exclude(**kwargs)
+查找与参数不匹配的对象
+
+查询是懒惰的，你不输出使用它只是保存并不执行
+
+get()
+
+get精准查询,如果没有查到会引发一个DoesNotExist异常，如果多个项目与get匹配则会引发MultipleObjectsReturned异常
+
+limiting 查询(切片)
+Blog.objects.all()[:5]
+Blog.objects.all()[5:10]
+Blog.objects.all()[:10:2]
+查询单个对象而不是列表最好使用索引而不是切片
+Blog.objects.all()[0]
+
+
+字段查找
+exact
+精准查找
+Blog.objects.get(name__exact='xxx')
+如果不提供查找类型，则默认是精准查找
+name__exact='xxx'   <==>    name='xxx'
+
+iexact
+不区分大小写查找
+
+contains
+区分大小写的包含查询(LIKE)
+Blog.objects.get(name__contains='xxx')  包含xxx的名称
+
+icontains
+不区分大小写的包含查询
+
+startswith,endswith,istartseith,iendswith
+开始和结尾匹配查询
+
+
+跨越关系查找
+Entry.objects.filter(blog__name='xxx')
+查找Entry中关联表blog的name='xxx'的记录
+Blog.objects.filter(entry__headline__contains='Lennon')
+反向查找，查找blog表被关联在表entry中headline包含'Lennon'的blog
+
+
+比较查询  F
+Entry.objects.filter(n_comments__gt=F('n_pingbacks'))
+Entry.objects.filter(n_comments__gt=F('n_pingbacks') * 2)
+Entry.objects.filter(rating__lt=F('n_comments') + F('n_pingbacks'))
+查找关联表authors和blog的name相同的数据
+Entry.objects.filter(authors__name=F('blog__name'))
+
+
+复杂对象查找  Q
+Q(question__startswith='Who') | ~Q(pub_date__year=2005)
+Poll.objects.get(Q(question__startswith='Who'), Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6)))
+Poll.objects.get(Q(pub_date=date(2005, 5, 2)) | Q(pub_date=date(2005, 5, 6)), question__startswith='Who')
+
+
+删除对象
+delete()
+
+
+更新对象
+update(),返回更新的行数
+更新时 F()查询不能引入其他表
+
+
+向后查询
+b = Blog.objects.get(id=1)
+b.entry_set.filter(headline__contains='Lennon')
+向后查询关联表的，与之关联的对象
+
+
+
+查询集（查询方法）
+
+过滤
+filter(**kwargs)
+返回给定查找参数匹配的新对象,多个参数通过AND底层SQL语句连接起来
+
+排除
+exclude(**kwargs)
+返回给定查找参数不匹配的新对象，多个参数通过AND底层SQL语句连接，整个事件都包含在一个NOT()中
+select ... WHERE NOT ()
+
+注释
+annotate（*args，**kwargs）
+
+排序
+order_by(*fields)
+desc()
+
+反转
+reverse()
+使用此reverse()方法可以反转返回查询集元素的顺序。reverse()第二次调用会将排序恢复到正常方向。
+
+去重复
+distinct(*fields)
+
+值
+values(*fields)
+Blog.objects.values('id')
+
+值列表
+values_list(*fields, flat=False)
+这类似于values()除了返回字典之外，它在迭代时返回元组.
+如果只传入单个字段，也可以传入flat 参数。如果True，这将意味着返回的结果是单个值
+flat当存在多个字段时传入是错误的
+
+日期
+dates(fields, kind, order='ASC')
+kind  应该是 year、month、day
+order 默认 ASC ，DESC
+Blog.objects.dates('pub_date', 'year')
+
+日期时间
+datetimes(field_name, kind, order='ASC', tzinfo=None)
+field_name应该是DateTimeField您的模型的名称。
+kind应该是"year"，"month"，"day"，"hour"， "minute"或"second"
+tzinfo定义截断前转换日期时间的时区。实际上，给定的日期时间根据使用的时区具有不同的表示。此参数必须是datetime.tzinfo 对象。如果是None，Django使用当前时区。
+
+全部
+all()
+
+关联查找
+select_related
+e = Entry.objects.select_related('blog').get(id=5)
+
+特殊查询
+extra（select = None，where = None，params = None，tables = None，order_by = None，select_params = None)
+
+
+得到
+get(**kwargs)
+返回给定查找参数匹配的对象
+
+创建
+create(**kwargs)
+一种创建对象并将其全部保存在一个步骤中的便捷方法,返回创建对象
+
+获取或创建
+get_or_create(defaults=None, **kwargs)
+
+升级或创建
+update_or_create(defaults=None, **kwargs)
+
+大量插入
+bulk_create(objs，batch_size = None)
+Entry.objects.bulk_create(Entry(headline="Django 1.1 Announced"),Entry(headline="Breaking: Django is awesome")])
+它不适用于多对多关系
+它不适用于多表继承方案中的子模型
+如果模型的主键是a，AutoField则它不会检索并设置主键属性
+
+计数
+count()
+返回一个整数，表示与之匹配的数据库中的对象数,永远不会引发异常
+
+in_bulk
+in_bulk(id_list)
+获取主键值列表并返回将每个主键值映射到具有给定ID的对象实例的字典
+
+迭代器
+iterator()
+查询结果并返回一个迭代器
+
+最新的
+latest(field_name=None)
+使用field_name 提供的日期字段，按日期返回表中的最新对象
+
+最早的
+earliest(field_name=None)
+
+第一个
+first()
+返回查询集匹配的第一个对象，或者None没有匹配的对象
+
+最后
+last()
+
+存在
+exists()
+some_queryset.filter(pk=entry.pk).exists()
+
+更新
+update(**kwargs)
+返回更新的行数
+
+删除
+delete()
+
+
+字段查找
+__exact		确切
+__iexact	不区分大小写
+__contains 	包含(%**%)
+__icontains 不区分大小写的包含
+__in 		在
+__gt		大于
+__gte		大于等于
+__lt		小于
+__lte		小于等于
+__startswitch	区分大小写的开头
+__istartswitch 	不区分大小写的开头
+__endswitch		区分大小写的结尾
+__iendseitch 	不区分大小写的结尾
+__range			范围(pub_date__range=(start_date, end_date))
+__year
+__month
+__date
+__week_day		周(日-六)
+__hour
+__minute
+__second
+__isnull
+__search		搜索
+__regex			正则表达式匹配
+__iregex		不区分大小写的正则表达式
+	
+
