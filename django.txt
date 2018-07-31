@@ -357,3 +357,27 @@ __regex			正则表达式匹配
 __iregex		不区分大小写的正则表达式
 	
 
+
+
+访问相关对象
+
+add(*objs)	反向添加
+b = Blog.objects.get(id=1)
+e = Entry.objects.get(id=234)
+b.entry_set.add(e)
+
+create(**kwargs)	正向添加
+b = Blog.objects.get(id=1)
+e = b.entry_set.create(
+	headline='Hello',
+	body_text='Hi',
+	pub_date=datetime.date(2005, 1, 1))
+
+remove(*objs)	反向移除
+b = Blog.objects.get(id=1)
+e = Entry.objects.get(id=234)
+b.entry_set.remove(e)
+
+clear()		正向移除
+b = Blog.objects.get(id=1)
+b.entry_set.clear()
