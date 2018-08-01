@@ -381,3 +381,10 @@ b.entry_set.remove(e)
 clear()		正向移除
 b = Blog.objects.get(id=1)
 b.entry_set.clear()
+
+
+
+迁移
+migrate，负责应用迁移，以及取消应用和列出其状态。
+makemigrations，负责根据您对模型所做的更改创建新的迁移。
+sqlmigrate，显示迁移的SQL语句。

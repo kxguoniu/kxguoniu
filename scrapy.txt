@@ -3,8 +3,8 @@ mongoDB
 redis
 redisdump
 charles
-
-
+现在 Python 有了易经筋（multiprocessing）, 吸星大法（C 语言扩展机制）和独孤九剑（ctypes）
+http://www.lfd.uci.edu/~gohlke/pythonlibs/#twisted
 
 请求
 
@@ -51,3 +51,5 @@ Expires: 指定相应的过期时间，缓存
 
 响应体
 响应的正文数据
+
+
