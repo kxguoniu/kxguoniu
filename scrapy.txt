@@ -53,3 +53,51 @@ Expires: 指定相应的过期时间，缓存
 响应的正文数据
 
 
+
+URL的识别和分段
+urllib.parse.urlparse(urlstring, scheme='', allow_fragments=True)
+urlstring: 必填，待解析的URL
+scheme: 默认的协议，如果URL没有带协议的话
+allow_fragments: 是否忽略fragment，如果为False就会被忽略
+URL: scheme://netloc/path;params?query#fragment
+
+
+URL的拼接
+urllib.parse.urlunparse
+data = ['http', 'www.baidu.com', 'index.html', 'user', 'a=6', 'comment']
+urlunparse(date)
+
+
+urlsplit
+urllib.parse.urlsplit()
+同urlparse相似  把params合并到path中
+
+urlunsplit()
+
+
+urljoin
+urllib.parse.urljoin('base_url', 'url')
+URL拼接,base_url提供了 scheme netloc path,如果这三项在新的链接里不存在就添加上去
+
+
+urlencode
+urllib.parse.urlencode()
+把字典序列化为GET请求字典
+params = {'name':'xxx', 'age':'22'}
+base_url = 'http://www.baidu.com?'
+url = base_url + urlencode(params)
+
+
+parse_qs
+urllib.parse.parse_qs()
+反序列化GET参数，转换为字典
+
+
+parse_qsl
+反序列化GET参数，转换为元祖组成的列表
+
+
+quote
+该方法可以将内容转化为URL的编码格式，带有中文参数时可能导致乱码
+
+
