@@ -388,3 +388,11 @@ b.entry_set.clear()
 migrate，负责应用迁移，以及取消应用和列出其状态。
 makemigrations，负责根据您对模型所做的更改创建新的迁移。
 sqlmigrate，显示迁移的SQL语句。
+
+
+
+
+
+视图
+
+请求和响应对象
