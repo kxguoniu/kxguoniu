@@ -1,8 +1,3 @@
-tesseract
-mongoDB
-redis
-redisdump
-charles
 现在 Python 有了易经筋（multiprocessing）, 吸星大法（C 语言扩展机制）和独孤九剑（ctypes）
 http://www.lfd.uci.edu/~gohlke/pythonlibs/#twisted
 
