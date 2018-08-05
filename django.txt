@@ -396,3 +396,320 @@ sqlmigrate，显示迁移的SQL语句。
 视图
 
 请求和响应对象
+HttpRequest 属性
+.scheme
+表示请求方案的字符串		(http/https)
+
+.body
+原始HTTP请求主体作为字节字符串
+
+.path
+表示所请求页面的完整路径的字符串，不包括scheme和域名
+
+.path_info
+在某些Web服务器配置下，主机名后面的URL部分被分成脚本前缀部分和路径信息部分
+例如，如果WSGIScriptAlias你的应用程序设置为 "/minfo"，则path可能是"/minfo/music/bands/the_beatles/" 和path_info会"/music/bands/the_beatles/"。
+
+.method
+请求中使用的HTTP方法的字符串  (GET/POST)
+
+.encoding
+对数据进行编码转换，设定访问编码
+
+.GET
+类似于字典的对象，包含所有给定的HTTP GET参数
+
+.POST
+类似字典的对象，包含所有给定的HTTP POST参数
+
+.COOKIES
+包含所有cookie的标准Python字典。键和值是字符串。
+
+.FILES
+包含所有上传文件的类字典对象
+<input type="file" name="" />
+
+.META
+包含所有可用HTTP标头的标准Python字典
+CONTENT_LENGTH - 请求正文的长度（作为字符串）。
+CONTENT_TYPE - 请求正文的MIME类型。
+HTTP_ACCEPT - 响应的可接受内容类型。
+HTTP_ACCEPT_ENCODING - 可接受的响应编码。
+HTTP_ACCEPT_LANGUAGE - 响应的可接受语言。
+HTTP_HOST - 客户端发送的HTTP主机头。
+HTTP_REFERER - 引用页面，如果有的话。
+HTTP_USER_AGENT - 客户端的用户代理字符串。
+QUERY_STRING - 查询字符串，作为单个（未解析的）字符串。
+REMOTE_ADDR - 客户端的IP地址。
+REMOTE_HOST - 客户端的主机名。
+REMOTE_USER - Web服务器验证的用户（如果有）。
+REQUEST_METHOD- 一个字符串，如"GET"或"POST"。
+SERVER_NAME - 服务器的主机名。
+SERVER_PORT - 服务器的端口（作为字符串）。
+
+.urlconf
+
+
+中间件设置的属性
+.session
+来自SessionMiddleware：一个可读写的，类似字典的对象，代表当前会话
+
+.site
+来自CurrentSiteMiddleware： 表示当前站点返回的实例Site或 RequestSite返回 的实例
+
+.user
+表示当前登录用户的实例。如果用户当前未登录，user则将设置为实例AnonymousUser
+
+
+方法
+.get_host()
+按顺序返回请求的原始主机
+
+.get_full_path()
+path如果适用，返回加上附加的查询字符串
+
+.build_absolute_uri(location)
+返回绝对URI形式的location
+
+.get_signed_cookie(key, default=RAISE_ERROR, salt='', max_age=None)
+返回已签名cookie的cookie值，如果cookie失效则引发异常，如果提供default参数则禁止异常并返回默认值
+可选salt参数可用于提供额外保护，防止对您的密钥进行暴力攻击。如果提供，max_age将根据附加到cookie值的签名时间戳检查参数， 以确保cookie不超过 max_age秒,就是cookie的加密和有效时间
+
+.is_secure()
+如果请求是安全的则返回True，也就是说他是用https请求的
+
+.is_ajax()
+如果请求被经由制成XMLHttpRequest返回True，就是javascript
+
+.read(size=None)
+.readline()
+.readlines()
+.xreadlines()
+.__iter__()
+
+
+
+查询字典对象
+QueryDict
+
+方法
+.__getitem__(key)
+返回给定键的值，如果有多个值则返回最后一个(KeyError)
+
+.__setitem(ket, value)
+将给定键的值设置为value
+
+.__contains__(key)
+如果设置了给定键则返回True
+
+.get(key, default=None)
+与__gititem__相同的逻辑，如果键不存在，使用钩子返回默认值
+
+.setdefault(key, default=None)
+设置默认值
+
+.update(other_dict)
+添加到字典而不是替换
+
+.items()
+参考__gititem__()
+
+.iteritems()
+
+.iterlists()
+
+.values()
+
+.itervalues()
+
+.copy()
+使用copy.deepcopy()返回对象的副本，这个副本是可变的
+
+.getlist(key, default=None)
+以python列表的方式返回带有请求键的数据
+
+.setlist(key,list_)
+讲给定键设置为list_ 与(__setitem__)不同
+
+.appendlist(key, item)
+讲item追加到与key关联的内部列表
+
+.setlistdefault(key, default_list=None)
+like setdefault() 只不过传值是列表
+
+.lists()
+like items() 不过它返回字典的所有值
+
+.pop(key)
+返回给定键的值列表，并从字典中删除
+
+.popitem()
+删除字典的任意成员，并返回包含键和值列表的一个元祖
+
+.dict()
+返回查询字典的字典形式，多个值的键只返回最后一个值
+
+.urlencode(safe=None)
+以query_string的方式返回数据的字符串
+
+
+
+HttpResponse对象
+
+用法
+传递字符串
+典型用法是将页面内容作为字符串传递给 HttpResponse构造函数
+response = HttpResponse("Text only, please.", content_type="text/plain")
+但是，如果要以增量方式添加内容，可以将其response用作类文件对象
+response = HttpResponse()
+response.write("<p>Here's the text of the Web page.</p>")
+response.write("<p>Here's another paragraph.</p>")
+
+
+传递迭代器
+最后，您可以传递HttpResponse迭代器而不是字符串
+
+
+设置标题字段
+要在响应中设置或删除标题字段，请将其视为字典
+response = HttpResponse()
+response['Age'] = 120
+del response['Age']
+
+
+告诉浏览器将响应视为文件附件
+要告诉浏览器将响应视为文件附件，请使用 content_type参数并设置Content-Disposition标头
+response = HttpResponse(my_data, content_type='application/vnd.ms-excel')
+response['Content-Disposition'] = 'attachment; filename="foo.xls"'
+
+
+属性
+.content
+表示内容的字节字符串，必要时从Unicode对象编码
+
+.charset
+一个字符串，表示将在其中编码响应的字符集。如果未在HttpResponse实例化时间给出，则将从中提取 content_type，如果不成功，DEFAULT_CHARSET则将使用该 设置
+
+.status_code
+响应的HTTP状态代码
+
+.reason_phrase
+响应的HTTP原因短语
+
+.streaming
+
+.closed
+如果回复以结束，则为True
+
+
+方法
+HttpResponse.__init__（content =''，content_type = None，status = 200，reason = None，charset = None）
+content应该是迭代器或字符串
+content_type是可选的字符集编码完成的MIME类型，用于填充HTTP Content-Type标头。默认“ text / html; charset = utf-8 “
+status是响应的HTTP状态代码
+reason是HTTP响应短语。如果未提供，将使用默认短语
+charset是编码响应的字符集
+
+
+.__setitem__(header, value)
+将给定的标题名称设置定为给定值
+
+.__delitem__(header)
+删除具有给定标题的标头，不区分大小写
+
+.__getitem__(header)
+返回给定标头名称的值，不区分大小写
+
+.has_header(header)
+对给定名称的标头的不区分大小写的检查
+
+.setdefault(header, value)
+设置一个标题，除非已经设置好了
+
+.set_cookie(key，value =''，max_age = None，expires = None，path ='/'，domain = None，secure = None，httponly = False)
+max_age 过期秒数
+expires 过期时间 "Wdy, DD-Mon-YY HH:MM:SS GMT" or a datetime.datetime
+使用domain，如果你想设置一个跨域的cookie
+httponly=True 防止客户端的javascrapt访问cookie
+
+.set_signed_cookie（key，value，salt =''，max_age = None，expires = None，path ='/'，domain = None，secure = None，httponly = True）
+like set_cookie(),对cookie进行加密签名
+
+.delete_cookie(key，path ='/'，domain = None)
+使用给定的秘钥删除cookie
+
+.write(content)
+此方法使HttpResponse实例成为类文件对象
+
+.flush()
+此方法使HttpResponse实例成为类文件对象
+
+.tell()
+此方法使HttpResponse实例成为类文件对象
+
+.getvalue()
+返回值HttpResponse.content,此方法使HttpResponse实例成为类似流的对象
+
+.writable()
+此方法使HttpResponse实例成为类似流的对象
+
+.writelines(line)
+将响应列表写入响应。不添加行分隔符。此方法使HttpResponse实例成为类似流的对象
+
+
+
+HttpResponse子类
+
+HttpResponseRedirect	url参数必须  暂时重定向(302) 返回定向的url
+
+HttpResponsePermanentRedirect	返回永久重定向(301)
+
+HttpResponseNotModified
+构造函数不接受任何参数，也不应将任何内容添加到此响应中。使用此命令指定自用户上次请求以来未修改页面(304)
+
+HttpResponseBadRequest
+like HttpResponse 但使用400状态码
+
+HttpResponseNotFound
+like HttpResponse 但使用404状态码
+
+HttpResponseForbidden
+like HttpResponse 但使用403状态码
+
+HttpResponseNotAllowed
+like HttpResponse 但使用405状态码，构造函数的第一个参数是必需的：允许的方法列表（例如 ）。['GET', 'POST']
+
+HttpResponseGone
+like HttpResponse 但使用410状态码
+
+HttpResponseServerError
+like HttpResponse 但使用500状态码
+
+
+
+JsonResponse对象
+JsonResponse（data，encoder = DjangoJSONEncoder，safe = True，** kwargs）
+其默认Content-Type标头设置为application/json
+第一个参数data应该是一个dict实例。如果 safe参数设置为False（见下文），则它可以是任何JSON可序列化对象。
+encoder，缺省值为 django.core.serializers.json.DjangoJSONEncoder，将用于序列化的数据
+该safe布尔参数默认为True。如果设置为 False，则可以传递任何对象以进行序列化（否则仅 dict允许实例）
+
+用法
+要序列化除dict以外的对象，必须将safe 参数设置为False
+如果需要使用其他JSON编码器类，可以将encoder 参数传递给构造函数方法
+
+
+
+StreamingHttpResponse对象
+属性
+.streaming_content
+表示内容的字符串迭代器
+
+.status_code
+响应的HTTP状态代码
+
+.reason_phrase
+响应的HTTP原因短语
+
+.streaming
+一直是 True
