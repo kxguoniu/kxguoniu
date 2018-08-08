@@ -153,3 +153,40 @@ ab+         以二进制追加方式打开一个文件，
 
 文件的简化写法  with as
 with 控制块结束时会自动关闭文件
+
+
+
+JSON文件存储
+with open('data.json', 'r') as file:
+    str = file.read()
+    data = json.loads(str)
+
+with open('data.json', 'w', encoding='utf-8') as file:
+    file.write(json.dumps(data, indent=2, ensure_ascii=False))
+
+以utf-8编码写入，json序列化禁用ascii编码，代码缩进为2
+
+
+CSV文件存储
+以纯文本形式存储表格数据
+with open('data.csv', 'w', encoding='utf-8') as csvfile:
+    writer = csv.writer(csvfile, delimiter=',')
+    writer.writerow(['id', 'name', 'age'])
+    writer.writerow(['1001', 'Mike', 20])
+    writer.writerows([['1002', 'Bob', 22], ['1003', 'Jirdan', 21])
+以逗号作为分割符写入文件
+
+字典
+with open('data.csv', 'w', encoding='utf-8') as csvfile:
+    fieldnames = ['id', 'name', 'age']
+    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+    writer.writeheader()
+    writer.writerow({'id': '1001', 'name': 'Mike', 'age': 20})
+
+with open('data.csv', 'r', encoding='utf-8') as csvfile:
+    reader = csv.reader(csvfile)
+    for row in reader:
+        print(row)
+
+
+

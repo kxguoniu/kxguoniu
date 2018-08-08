@@ -868,3 +868,77 @@ url(name)
 
 表格
 使用表单
+
+
+
+
+Django设置
+基础
+django.conf.global_settings
+默认环境设置
+
+核心设置
+ADMINS
+默认是空元组，列出获取代码错误通知人的列表
+当DEBUG=False，一个视图引发异常时，django将通过电子邮件想这些人发送完整的异常信息。
+(('John', 'john@example.com'), ('Mary', 'mary@example.com'))
+
+ALLOWED_HOSTS
+默认是空列表
+表示此django站点可以访问的主机/域名 字符串
+
+APPEND_SLASH
+默认为 True
+如果请求的url和urlconf中所有的都不匹配并且不是以/结尾，则加上/再次请求(重定向)，可能导致POST请求中所有的数消失
+
+CACHES
+默认{'default':{'BACKEND':'django.core.cache.backends.locmem.LocMemCache',}}
+包含要与Django一起使用的所有缓存的设置的字典
+该CACHES设置必须配置default缓存; 还可以指定任意数量的附加缓存
+
+KEY_FUNCTION
+KEY_PREFIX
+
+LOCATION
+默认值是空字符串
+要使用的缓存的位置。这可能是文件系统缓存的目录，memcache服务器的主机和端口，或者只是本地内存缓存的标识名称。
+
+OPTIONS
+默认None
+传递给缓存后端的额外参数，可用参数因缓存后端  而异
+
+TIMEOUT
+默认300秒
+高速缓存条目被认为是陈旧的秒数
+
+VERSION
+默认1
+Django服务器生成的缓存键默认版本号
+
+CACHE_MIDDLEWARE_ALIAS
+默认 default
+用于缓存中间件的缓存连接
+
+CACHE_MIDDLEWARE_KEY_PREFIX
+默认空字符串
+一个字符串，它将作为缓存中间件生成缓存键的前缀
+
+CACHE_MIDDLEWARE_SECONDS
+默认600
+缓存缓存中间件的默认秒数
+
+CSRF_COOKIE_AGE
+默认值(31449600s大约一年)
+csrf cookie的时间
+防止用户添加书签再次打开时出现问题，更改为None将使用基于会话的cookie它将cookie保存在内存中而不是持久存储中
+
+CSRF_COOKIE_DOMAIN
+默认None
+设置CSRF cookie时要使用的域。这对于轻松允许跨子域请求从正常的跨站点请求伪造保护中排除非常有用
+
+CSRF_COOKIE_HTTPONLY
+默认False
+否HttpOnly在CSRF cookie上使用flag。如果设置为 True，则客户端JavaScript将无法访问CSRF cookie
+
+
+DATABASE
