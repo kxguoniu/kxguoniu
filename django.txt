@@ -713,3 +713,158 @@ StreamingHttpResponse对象
 
 .streaming
 一直是 True
+
+
+
+TemplateResponse
+
+SimpleTemplateResponse对象
+.template_name
+要呈现的模板的名称
+
+.context_data
+渲染模板时使用的上下文数据。它必须是一个dict
+
+.rendered_content
+使用当前模板和上下数据呈现的响应内容值
+
+.is_rendered
+一个布尔值，指示是否已显现响应内容
+
+
+方法
+SimpleTemplateResponse.__init__（template，context = None，content_type = None，status = None，charset = None，using = None)
+使用给定模板，上下文，内容类型，HTTP状态和字符集实例化对象
+template 依赖于后端的模板对象，模板名称或模板名称列表， 1.8开始不推荐使用
+context  dict要添加到模板上下文的值的  1.8开始不推荐使用
+content_type HTTP Content-Type标头中包含的值 包括MIME类型规范和字符集编码
+status 响应的HTTP状态代码
+charset 将对响应进行编码的字符集
+using 该NAME模板引擎的使用加载的模板
+
+.resolve_template(template)
+解析用于渲染的模板实例,接受依赖于后端的模板对象,模板名称或模板名称列表
+返回要呈现的后端依赖模板对象实例。重写此方法以自定义模板加载
+
+.render()
+设置response.content为获得的结果 SimpleTemplateResponse.rendered_content
+
+
+TemplateResponse对象
+方法
+TemplateResponse.__init__（request，template，context = None，content_type = None，status = None，current_app = None，charset = None，using = None）
+TemplateResponse使用给定的请求，模板，上下文，内容类型，HTTP状态和字符集实例化对象
+request  一个HttpRequest实例
+template 依赖于后端的模板对象，模板名称或模板名称列表， 1.8开始不推荐使用
+context  dict要添加到模板上下文的值的  1.8开始不推荐使用
+content_type  HTTP Content-Type标头中包含的值，包括MIME类型规范和字符集编码
+status  响应的HTTP状态代码
+charset  将对响应进行编码的字符集
+using  该NAME模板引擎的使用加载的模板
+
+
+
+文件上传
+文件对象
+属性
+name  文件名包括相对路径
+size  文件的大小
+file  此类包装的基础文件对象
+mode  文件的读/写模式
+
+方法
+open(mode=None)
+打开或重新打开文件 重新打开文件时，mode将覆盖最初打开文件的任何模式; None表示以原始模式重新打开
+
+read(num_bytes=None)
+从文件中读取内容，可选的size是要读取的字节数，如果未指定则将文件读取到最后
+
+__iter__()
+迭代文件，一次一行
+
+chunks(chunk_size=None)
+迭代文件，产生给定大小的'块'，默认是64KB。这对于非常大的文件特别有用，因为它允许它们从磁盘流式传输并避免将整个文件存储在内存中
+
+multiple_chunks(chunk_size=None)
+如果文件足够大，需要多个块来访问它的所有内容，那么返回True
+
+write(content)
+将指定内容字符串写入文件，根据幕后的存储系统，在close()调用文件之前，可能无法完全提交此内容
+
+close()
+关闭文件
+
+
+ContentFile Class
+
+django.core.files.images.ImageFile Class
+继承了文件的所有属性和方法，并增加了新的内容
+width 图像的宽度
+height 图像的高度
+
+附加方法
+File.save（name，content，save = True）
+使用提供的文件名和内容保存新文件。这不会替换现有文件，但会创建一个新文件并更新对象以指向它
+
+File.delete（save = True）
+从模型实例中删除文件并删除基础文件。如果save是True，则删除文件后将调用模型的save()方法
+
+
+
+文件存储
+
+FileSystemStorage Class
+class FileSystemStorage(location=None, base_url=None, file_permissions_mode=None, directory_permissions_mode=None)
+location    保存文件的目录的绝对路径，默认为您的MEDIA_ROOT设置值
+base_url    提供存储在此位置的文件的URL，默认为您的MEDIA_URL设置值
+file_permissions_mode   保存文件是文件系统的权限，默认为FILE_UPLOAD_PERMISSIONS
+directory_permissions_mode  保存目录时的文件系统权限，默认为FILE_UPLOAD_DIRECTORY_PERMISSIONS
+
+
+Storage Class
+accessed_time(name)
+返回上次访问时间，对于无法返回上次访问时间的存储系统，这将会引发 NotImplementedError
+
+created_time(name)
+返回文件的创建时间，异常同上
+
+delete(name)
+删除文件name，如果存储系统不支持删除，异常同上
+
+exists(name)
+如果文件已存在返回True，不存在返回False
+
+get_available_name(name, max_length=None)
+返回一个文件名，如果max_length设置，则长度不能超过该值
+
+get_valid_name(name)
+返回一个文件名
+
+listdir(path)
+返回指定路径的内容，这是一个二元祖列表，第一项是目录，第二项是文件,异常同上
+
+modified_time(name)
+返回一个最后修改时间的datetime对象, 异常同上
+
+open(name, mod='rb')
+打开给定的文件name，虽然返回的是一个file对象，但是它可能是一个子类，在远程服务存储的情况下，读写可能非常慢
+
+path(name)
+本地文件系统的路径
+
+save(name, content, max_length=None)
+保存新文件，如果名称已存在则会修改文件名，返回实际存储的文件名
+max_length被传递给了get_available_name()
+content 必须是一个文件对象
+
+size(name)
+返回引用文件的总大小(以字节为单位)，异常同上
+
+url(name)
+如果内容可以被访问则返回url，异常同上
+
+
+
+
+表格
+使用表单
