@@ -189,4 +189,82 @@ with open('data.csv', 'r', encoding='utf-8') as csvfile:
         print(row)
 
 
+非关系型数据库
+MongoDB     文档型数据库
+连接
+import pymongo
+client = pymongo.MongoClient(host='localhost', port=27017)
 
+指定数据库
+db = client.test
+
+指定集合
+collection = db.students
+
+插入数据
+student = {
+    'id': '20180101',
+    'name': 'Jordan',
+    'age': 20,
+    'gender': 'male'
+}
+result = collection.insert(student)
+result = collection.insert([student,student[,student]])
+推荐使用 insert_one() insert_many()
+
+查询
+result = collection.find_one({'name': 'Mike'})
+多条数据查询
+result = collection.find({'age': {'$gt': 20}})
+查询年龄大于20的所有人
+$lt         小于              {'age': {'$lt': 20}}
+$gt         大于              {'age': {'$gt': 20}}
+$lte        小于等于           {'age': {'$lte': 20}}
+$gte        大于等于           {'age': {'$gte': 20}}
+$ne         不等于             {'age': {'$ne': 20}}
+$in         在范围内           {'age': {'$in': [20, 23]}}
+$nin        不在范围内         {'age': {'$nin': [20, 23]}}
+
+正则表达式
+result = collection.find({'name': {'$regex': '^M.*'}})
+
+$regex      匹配正则表达式     {'name': {'$regex': '^M.*'}}        name以M开头
+$exists     属性是否存在       {'name': {'$exists': True}}         name属性存在
+$type       类型判断           {'name': {'$type': 'int'}}          age的类型为int
+$mod        数字模操作         {'name': {'$mod': [5,0]}}           年龄模5余0
+$text       文本查询           {'$text': {'$search': 'Mike'}}      text类型的属性中包含Mike字符串
+$where      高级条件查询       {'$where': 'obj.fans_count == obj.follows_count'}
+
+计数
+统计所有数据条数
+count = collection.find().count()
+统计符合条件的数据
+count = collection.find({'age': 20}).count()
+
+排序
+.sort('name', pymongo.ASCENDING)
+pymongo.DESCENDING
+
+偏移
+.skp(2)
+忽略前两个元素
+.skp(2).limit(2)
+忽略前两个，返回两个结果
+
+更新
+condition = {'name': 'Kevin'}
+student = collection.find_one(condition)
+student.age = 25
+result = collection.update(condition, student)
+print result
+
+result = collection.update(condition, {'$set': student})
+使用$set只会更新student字典内存在的字段，如果原先还有其他字段则不更新，也不会删除。而不是用则会把之前的数据全部用student字典替换，如果原本存在其他字段则会被删除
+
+删除
+result = collection.remove({'name': 'Kevin'})
+.delete_one()       .delete_many()
+
+
+
+Ajax数据爬取
