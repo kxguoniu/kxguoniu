@@ -268,3 +268,6 @@ result = collection.remove({'name': 'Kevin'})
 
 
 Ajax数据爬取
+
+动态渲染页面爬取
+Selenium
