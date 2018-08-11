@@ -1,0 +1,9 @@
+name,sex,mobile,address,phone,mail,number,position,superior,subordinate,branch
+a,20,,,,,,,admin,"['b', 'c', 'd']",
+b,20,,,,,,,a,"['e', 'f']",
+c,20,,,,,,,a,['g'],
+d,20,,,,,,,a,['h'],
+e,20,,,,,,,b,[],
+f,20,,,,,,,b,[],
+g,20,,,,,,,c,[],
+h,20,,,,,,,d,[],

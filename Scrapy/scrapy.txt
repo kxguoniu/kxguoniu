@@ -137,7 +137,7 @@ following-sibling:: 当前节点之后的所有同级节点
 数据存储
 文件存储
 TXT
-file = open('file.txt', 'a', encoding'utf-8')
+file = open('file.txt', 'a', encoding='utf-8')
 r           以只读的方式打开文件，指针会放在开头
 rb          以二进制只读方式打开一个文件，指针会放在开头
 r+          以读写方式打开一个文件，文件指针将会放在文件开头
