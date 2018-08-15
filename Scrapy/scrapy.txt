@@ -269,5 +269,14 @@ result = collection.remove({'name': 'Kevin'})
 
 Ajax数据爬取
 
+
 动态渲染页面爬取
 Selenium
+
+
+验证码识别
+静态图形验证码
+tesserocr
+
+
+代理的使用

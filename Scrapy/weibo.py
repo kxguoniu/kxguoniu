@@ -29,7 +29,7 @@ def get_page(page):
     except requests.ConnectionError as e:
         print ('Error', e.args)
 
-def parse_page(json):
+def parse_page(jsons):
     if jsons:
         items = jsons.get('data').get('cards')
         for item in items:
