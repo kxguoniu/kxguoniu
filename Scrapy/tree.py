@@ -80,6 +80,32 @@ class Tree(object):
         return False
 
 
+    def find(self, inter):
+        '''
+        多叉树深度优先查找
+        非递归
+        '''
+        node = self.head
+        if node.inter.lower() == inter:
+            return node
+        stack_list = []
+        visited = []
+        stack_list.append(node)
+        visited.append(node)
+        while len(stack_list) > 0:
+            x = stack_list[-1]
+            for w in x.subordinate:
+                if not w in visited:
+                    if w.inter.lower() == inter:
+                        return w
+                    visited.append(w)
+                    stack_list.append(w)
+                    break
+            if stack_list[-1] == x:
+                stack_list.pop()
+        return False
+
+
     def save(self):
         '''
         把多叉树中的所有节点保存到文件
