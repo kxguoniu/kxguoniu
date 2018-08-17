@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-class test(models.model):
+class test(models.Model):
     #id = models.AutoField()
     name = models.CharField(max_length=20)
     status = models.BooleanField()
@@ -11,5 +11,5 @@ class test(models.model):
     text = models.TextField(null=True)
     data = models.DateField()
     time = models.DateTimeField()
-    num = models.DecimalField()
+    num = models.DecimalField(max_digits=10, decimal_places=2)
     file = models.FileField()
