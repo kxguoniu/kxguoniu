@@ -14,12 +14,14 @@ BOT_NAME = 'nkxscrapy'
 SPIDER_MODULES = ['nkxscrapy.spiders']
 NEWSPIDER_MODULE = 'nkxscrapy.spiders'
 
+MAX_PAGE = 5
+IMAGES_STORE = '../../../images'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'nkxscrapy (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -52,9 +54,9 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'nkxscrapy.middlewares.NkxscrapyDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    'nkxscrapy.middlewares.RandomUserAgentMiddleware': 543,
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -65,9 +67,11 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'nkxscrapy.pipelines.TextPipeline': 300,
-    'nkxscrapy.pipelines.MongoPipeline': 400,
+    #'nkxscrapy.pipelines.TextPipeline': 300,
+    'nkxscrapy.pipelines.ImagePipeline': 300,
+    'nkxscrapy.pipelines.MongoPipeline': 301,
 }
+
 MONGO_URI = '123.207.173.113'
 MONGO_DB = 'nkxscrapy'
 

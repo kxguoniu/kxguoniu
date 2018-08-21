@@ -5,21 +5,39 @@ class Node(object):
     节点数据信息
     '''
     def __init__(self, data = {}):
-        self.id = data.get('id')                            #ID
-        self.name = data.get('name')                        #姓名
-        self.inter = data.get('inter')                      #内网账号
-        self.sex = data.get('sex')                          #性别
-        self.birthday = data.get('birthday')                #生日
-        self.JoinTime = data.get('JoinTime')                #入职时间
-        self.MPhone = data.get('MPhone')                    #手机
-        self.OrgName = data.get('OrgName')                  #组
-        self.Position = data.get('Position')                #职位
-        self.Tel = data.get('Tel')                          #座机
-        self.City = data.get('City')                        #城市
-        self.Email = data.get('Email')                      #邮箱
-        self.WorkPlaceName = data.get('WorkPlaceName')      #工作地点
-        self.superior = data.get('superior')                #上级
-        self.subordinate = data.get('subordinate', [])      #下级
+        self.id = data.get('id', '')                            #ID
+        self.name = data.get('name', '')                        #姓名
+        self.inter = data.get('inter', '')                      #内网账号
+        self.sex = data.get('sex', '')                          #性别
+        self.birthday = data.get('birthday', '')                #生日
+        self.JoinTime = data.get('JoinTime', '')                #入职时间
+        self.MPhone = data.get('MPhone', '')                    #手机
+        self.OrgName = data.get('OrgName', '')                  #组
+        self.Position = data.get('Position', '')                #职位
+        self.Tel = data.get('Tel', '')                          #座机
+        self.City = data.get('City', '')                        #城市
+        self.Email = data.get('Email', '')                      #邮箱
+        self.WorkPlaceName = data.get('WorkPlaceName', '')      #工作地点
+        self.superior = data.get('superior', '')                #上级
+        self.subordinate = data.get('subordinate', [])          #下级
+
+    def __repr__(self):
+        result = ''
+        result += 'id: ' + str(self.id) + '\n'
+        result += 'name: ' + self.name + '\n'
+        result += 'inter: ' + self.inter + '\n'
+        result += 'sex: ' + self.sex + '\n'
+        result += 'birthday: ' + self.birthday + '\n'
+        result += 'JoinTime: ' + self.JoinTime + '\n'
+        result += 'MPhone: ' + self.MPhone + '\n'
+        result += 'OrgName: ' + self.OrgName + '\n'
+        result += 'Position: ' + self.Position + '\n'
+        result += 'Tel: ' + self.Tel + '\n'
+        result += 'City: ' + self.City + '\n'
+        result += 'Email: ' + self.Email + '\n'
+        result += 'WorkPlaceName: ' + self.WorkPlaceName + '\n'
+        result += 'superior: ' + self.superior + '\n'
+        return result
 
 
 class Tree(object):
@@ -168,7 +186,6 @@ class Tree(object):
                 break
 
 
-
     def read(self):
         '''
         读取文件中的数据到多叉树
@@ -230,6 +247,5 @@ def main():
     t = Tree()
     t = t.read()
     t.level()
-    t.gephi()
 
 main()
