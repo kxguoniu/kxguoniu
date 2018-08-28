@@ -645,9 +645,11 @@ class Session(SessionRedirectMixin):
         # Total elapsed time of the request (approximately)
         elapsed = preferred_clock() - start
         r.elapsed = timedelta(seconds=elapsed)
+        #请求运行的大约时间
 
         # Response manipulation hooks
         r = dispatch_hook('response', hooks, r, **kwargs)
+        #响应处理钩子
 
         # Persist cookies
         if r.history:
@@ -657,8 +659,10 @@ class Session(SessionRedirectMixin):
                 extract_cookies_to_jar(self.cookies, resp.request, resp.raw)
 
         extract_cookies_to_jar(self.cookies, request, r.raw)
+        #取出cookie放入cookiejar中
 
         # Redirect resolving generator.
+        #重定向继续请求
         gen = self.resolve_redirects(r, request, **kwargs)
 
         # Resolve redirects if allowed.
@@ -719,6 +723,7 @@ class Session(SessionRedirectMixin):
 
         :rtype: requests.adapters.BaseAdapter
         """
+        # 给定开头的连接适配器
         for (prefix, adapter) in self.adapters.items():
 
             if url.lower().startswith(prefix.lower()):
