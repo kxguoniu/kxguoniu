@@ -98,7 +98,7 @@ class Tree(object):
         return False
 
 
-    def find(self, name=None, inter=None):
+    def find(self, inter=None):
         '''
         多叉树深度优先查找
         非递归
